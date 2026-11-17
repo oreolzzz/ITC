@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Assignment #3 - Loops</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav>
+  <a href="index.html">HOME</a>
+  <a href="assignment1.html">Assignment #1</a>
+  <a href="assignment2.html">Assignment #2</a>
+  <a href="assignment3.html">Assignment #3</a>
+  <a href="assignment4.html">Assignment #4</a>
+</nav>
+<main>
+  <h1>Assignment #3</h1>
+  <p class="sub">Factorial (while), Sum (do-while), Average (for) of the first N natural numbers</p>
+  <div class="card">
+    <label for="n">N (a positive whole number, up to 170)</label>
+    <input type="number" id="n" min="1" max="170" step="1" placeholder="e.g. 5">
+    <button onclick="run()">Compute</button>
+    <div class="result" id="result"></div>
+  </div>
+</main>
+<script>
+function run() {
+  var n = parseInt(document.getElementById("n").value, 10);
+  var out = document.getElementById("result");
+  if (isNaN(n) || n < 1 || n > 170) { out.textContent = "Please enter a whole number from 1 to 170."; return; }
+
+  // Factorial using a while loop
+  var fact = 1, i = 1;
+  while (i <= n) { fact *= i; i++; }
+
+  // Sum using a do-while loop
+  var sum = 0, j = 1;
+  do { sum += j; j++; } while (j <= n);
+
+  // Average using a for loop
+  var total = 0;
+  for (var k = 1; k <= n; k++) { total += k; }
+  var avg = total / n;
+
+  out.textContent = "Factorial of " + n + " (while loop): " + fact +
+    "\nSum of first " + n + " natural numbers (do-while loop): " + sum +
+    "\nAverage of first " + n + " natural numbers (for loop): " + avg;
+}
+</script>
+</body>
+</html>

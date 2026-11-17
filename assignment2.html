@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Assignment #2 - Income Tax Calculator</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav>
+  <a href="index.html">HOME</a>
+  <a href="assignment1.html">Assignment #1</a>
+  <a href="assignment2.html">Assignment #2</a>
+  <a href="assignment3.html">Assignment #3</a>
+  <a href="assignment4.html">Assignment #4</a>
+</nav>
+<main>
+  <h1>Assignment #2</h1>
+  <p class="sub">Income Tax Calculator (annual, Philippine graduated rates)</p>
+  <div class="card">
+    <label for="income">Annual taxable income (PHP)</label>
+    <input type="number" id="income" min="0" step="any" placeholder="e.g. 500000">
+    <button onclick="computeTax()">Compute Tax</button>
+    <div class="result" id="result"></div>
+    <p style="font-size:13px;color:#555">
+      Brackets: up to 250,000 = 0%; 250,000-400,000 = 15% of excess; 400,000-800,000 = 22,500 + 20% of excess;
+      800,000-2,000,000 = 102,500 + 25% of excess; 2,000,000-8,000,000 = 402,500 + 30% of excess;
+      over 8,000,000 = 2,202,500 + 35% of excess.
+    </p>
+  </div>
+</main>
+<script>
+function computeTax() {
+  var income = parseFloat(document.getElementById("income").value);
+  var out = document.getElementById("result");
+  if (isNaN(income) || income < 0) { out.textContent = "Please enter a valid income."; return; }
+  var tax;
+  if (income <= 250000) tax = 0;
+  else if (income <= 400000) tax = (income - 250000) * 0.15;
+  else if (income <= 800000) tax = 22500 + (income - 400000) * 0.20;
+  else if (income <= 2000000) tax = 102500 + (income - 800000) * 0.25;
+  else if (income <= 8000000) tax = 402500 + (income - 2000000) * 0.30;
+  else tax = 2202500 + (income - 8000000) * 0.35;
+  var fmt = function (n) { return n.toLocaleString("en-PH", { minimumFractionDigits: 2, maximumFractionDigits: 2 }); };
+  out.textContent = "Taxable income: PHP " + fmt(income) + "\nIncome tax: PHP " + fmt(tax) + "\nNet income: PHP " + fmt(income - tax);
+}
+</script>
+</body>
+</html>

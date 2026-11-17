@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Assignment #4 - Simple Payroll</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav>
+  <a href="index.html">HOME</a>
+  <a href="assignment1.html">Assignment #1</a>
+  <a href="assignment2.html">Assignment #2</a>
+  <a href="assignment3.html">Assignment #3</a>
+  <a href="assignment4.html">Assignment #4</a>
+</nav>
+<main>
+  <h1>Assignment #4</h1>
+  <p class="sub">Simple Payroll (weekly)</p>
+  <div class="card">
+    <label for="name">Employee name</label>
+    <input type="text" id="name" placeholder="e.g. Juan Dela Cruz">
+    <label for="hours">Hours worked this week</label>
+    <input type="number" id="hours" min="0" step="any" placeholder="e.g. 45">
+    <label for="rate">Hourly rate (PHP)</label>
+    <input type="number" id="rate" min="0" step="any" placeholder="e.g. 100">
+    <button onclick="payroll()">Compute Payroll</button>
+    <div class="result" id="result"></div>
+    <p style="font-size:13px;color:#555">
+      Regular hours: first 40 hours. Overtime: hours beyond 40 at 1.5x rate. Deductions: 10% of gross pay (adjust in the script if your rubric says otherwise).
+    </p>
+  </div>
+</main>
+<script>
+var REGULAR_HOURS = 40;
+var OT_MULTIPLIER = 1.5;
+var DEDUCTION_RATE = 0.10;
+
+function payroll() {
+  var name = document.getElementById("name").value.trim();
+  var hours = parseFloat(document.getElementById("hours").value);
+  var rate = parseFloat(document.getElementById("rate").value);
+  var out = document.getElementById("result");
+  if (!name || isNaN(hours) || isNaN(rate) || hours < 0 || rate < 0) {
+    out.textContent = "Please fill in all fields with valid values.";
+    return;
+  }
+  var regHours = Math.min(hours, REGULAR_HOURS);
+  var otHours = Math.max(hours - REGULAR_HOURS, 0);
+  var regPay = regHours * rate;
+  var otPay = otHours * rate * OT_MULTIPLIER;
+  var gross = regPay + otPay;
+  var deductions = gross * DEDUCTION_RATE;
+  var net = gross - deductions;
+  var f = function (n) { return "PHP " + n.toLocaleString("en-PH", { minimumFractionDigits: 2, maximumFractionDigits: 2 }); };
+  out.textContent = "Employee: " + name +
+    "\nRegular pay (" + regHours + " hrs): " + f(regPay) +
+    "\nOvertime pay (" + otHours + " hrs): " + f(otPay) +
+    "\nGross pay: " + f(gross) +
+    "\nDeductions (" + (DEDUCTION_RATE * 100) + "%): " + f(deductions) +
+    "\nNet pay: " + f(net);
+}
+</script>
+</body>
+</html>
